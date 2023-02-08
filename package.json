@@ -22,7 +22,7 @@
     "react-router-dom": "^6.6.2",
     "react-to-print": "^2.14.11",
     "socket.io-client": "^4.5.4",
-    "sweetalert2": "^11.7.0",
+    "sweetalert2": "^11.4.8",
     "validator": "^13.7.0",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.19.2/xlsx-0.19.2.tgz"
   },
