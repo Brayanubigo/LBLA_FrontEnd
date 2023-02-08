@@ -1,0 +1,19 @@
+.borde{
+  
+    box-shadow: 10px 10px 10px lightblue;
+     border-radius: 10px;
+    background: white;
+}
+.mar{
+    margin: auto 50px;
+    
+
+}
+.color{
+    background: black;
+}
+body{
+    background-image: radial-gradient(circle at 100% 0%, #00a692 0, #00a6a0 4.17%, #00a6ae 8.33%, #00a6bc 12.5%, #00a5c9 16.67%, #00a4d4 20.83%, #00a2df 25%, #00a0e7 29.17%, #009eef 33.33%, #009bf4 37.5%, #0098f7 41.67%, #0094f9 45.83%, #108ff8 50%, #518af5 54.17%, #7284f1 58.33%, #8c7eea 62.5%, #a178e2 66.67%, #b372d9 70.83%, #c26bce 75%, #cf65c1 79.17%, #da60b4 83.33%, #e25ca7 87.5%, #e85999 91.67%, #ec578b 95.83%, #ee587d 100%);
+    background-repeat: no-repeat;
+  
+}
