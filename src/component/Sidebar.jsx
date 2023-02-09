@@ -48,14 +48,14 @@ const Sidebar = (props) => {
       <ul className='pt-2'>
       {Menus.map((menu, index)=>(
         <>
-         <Link to={menu.link} onClick={menu.onClick}>
-        <li  key={index} className={`text-black text-sm flex items-center gap-x-4 cursor-pointer 
+         <Link key={index} to={menu.link} onClick={menu.onClick}>
+        <li   className={`text-black text-sm flex items-center gap-x-4 cursor-pointer 
         p-2 hover:bg-gray-500 rounded-md ${menu.spacing ? "mt-9": "mt-2"} ${menu.danger && "text-red-500"}`}>
-         <Link to={menu.link}> <span className='text-2xl block float-left'>
+        <span className='text-2xl block float-left'>
            {menu.icon}
-          </span></Link>
-          <Link to={menu.link}> <span className={`text-base font-medium flex-1 duration-200 ${props.open ?  " hidden hover:bg-black  hover:visible" : "max-md:hidden "} ${menu.danger && "text-red-400"}`}>
-           {menu.tittle} </span></Link>
+          </span>
+          <span className={`text-base font-medium flex-1 duration-200 ${props.open ?  " hidden hover:bg-black  hover:visible" : "max-md:hidden "} ${menu.danger && "text-red-400"}`}>
+           {menu.tittle} </span>
            
     
    
