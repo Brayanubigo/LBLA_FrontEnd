@@ -292,7 +292,7 @@ const resetForm = () =>{
           <label className=' uppercase text-gray-600 block font-mono' htmlFor="">Hora de pedido:</label>
           <input className='border lg:w-[15rem] w-full p-2 mt-3 bg-gray-50 rounded-xl' type="date" 
           value={fechaPedido} onChange={ e => setfechaPedido(e.target.value)} format="dd/mm/yyyy"/>
-          <input className='block border lg:w-[15rem] w-full p-2 mt-3 bg-gray-50 rounded-xl' type="time" id="appt" name="appt"
+          <input className='block border lg:w-[15rem] w-full p-2 mt-3 bg-gray-50 rounded-xl' type="time" id="appt" 
        min="08:00" max="18:00" value={time} onChange={ e => setTime(e.target.value)} />
            
           </div>
