@@ -2,6 +2,7 @@
 import { useState, useEffect, createContext} from "react";
 import axios from "axios";
 import Swal from 'sweetalert2'
+import clienteAxios from "../config/axios";
 const AuthContextUser = createContext()
 
 const AuthProviderUser = ({children}) =>{
@@ -22,7 +23,7 @@ const AuthProviderUser = ({children}) =>{
                 }
             }
             try {
-                const {data} = await axios.get('http://localhost:4000/user/perfil' ,config)
+                const {data} = await clienteAxios.get('/user/perfil' ,config)
             
                 setAuthu(data)
                 

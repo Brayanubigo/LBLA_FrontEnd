@@ -1,6 +1,7 @@
 
 import { useState, useEffect, createContext} from "react";
 import axios from "axios";
+import clienteAxios from "../config/axios";
 
 const AuthContext = createContext()
 
@@ -22,7 +23,7 @@ const AuthProvider = ({children}) =>{
                 }
             }
             try {
-                const {data} = await axios.get('http://localhost:4000/admin/perfil' ,config)
+                const {data} = await clienteAxios.get('/admin/perfil' ,config)
                 
                 setAuth(data)
                 
