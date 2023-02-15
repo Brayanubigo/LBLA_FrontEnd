@@ -115,28 +115,7 @@ const Login = () => {
 
 
 
-        <form onSubmit={handleSubmit}>
-          <div className='  lg:mt-[2rem] lg:ml-[3rem]'>
-      
-        <div className='my-5'>
-          <label className=' uppercase text-gray-600 block font-mono' htmlFor="">Email</label>
-          
-          <input className='border lg:w-[15rem] w-full p-2 mt-3 bg-gray-50 rounded-xl' type="text"
-           placeholder='Email' value={email} onChange={e => setEmail(e.target.value)} />
-          
-        </div>
-
-        <div className='my-5'>
-          <label className=' uppercase text-gray-600 block font-mono' htmlFor="">Contraseña</label>
-          
-          <input className='border lg:w-[15rem] w-full p-2 mt-3 bg-gray-50 rounded-xl' type="password"
-           placeholder='Tu Contraseña' value={password} onChange={e => setPassword(e.target.value)} />
-          
-        </div>
-        <input type="submit" value="Entrar" className=' bg-indigo-700 hover:bg-indigo-800 w-full font-mono lg:w-[10rem] py-3 rounded-xl hover:cursor-pointer text-white uppercase'/>
-        
-    </div>
-    </form>
+       
         </div>
         </div>
       </div>
