@@ -1,7 +1,7 @@
 import {  Table} from 'antd';
 import { useState, useEffect } from 'react';
 import { AiFillEye,AiFillEyeInvisible  } from "react-icons/ai";
-import axios from 'axios';
+
 import Alerta from '../component/Alerta'
 import Swal from 'sweetalert2';
 import clienteAxios from '../config/axios';

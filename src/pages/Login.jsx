@@ -5,7 +5,7 @@ import Logo2 from '../assets/Electrónica.png'
 import Logo3 from '../assets/Párvulo.png'
 import { Link, useNavigate } from 'react-router-dom';
 import Alerta from '../component/Alerta'
-import axios from 'axios';
+
 import useAuthUser from '../hooks/useAuthUser';
 import clienteAxios from '../config/axios';
 
@@ -29,7 +29,7 @@ const Login = () => {
       setAuthu(data)
       
       navigate('/usuario')
-      console.log(data)
+      
     }catch(error){
       setAlerta({
         msg: error.response.data.msg,
@@ -114,7 +114,7 @@ const Login = () => {
 </div>
 
 
-{/* 
+
         <form onSubmit={handleSubmit}>
           <div className='  lg:mt-[2rem] lg:ml-[3rem]'>
       
@@ -136,7 +136,7 @@ const Login = () => {
         <input type="submit" value="Entrar" className=' bg-indigo-700 hover:bg-indigo-800 w-full font-mono lg:w-[10rem] py-3 rounded-xl hover:cursor-pointer text-white uppercase'/>
         
     </div>
-    </form> */}
+    </form>
         </div>
         </div>
       </div>

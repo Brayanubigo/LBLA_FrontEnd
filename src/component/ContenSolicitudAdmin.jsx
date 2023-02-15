@@ -1,13 +1,13 @@
 import { Button, Table, Input } from 'antd';
 import { useState, useEffect } from 'react';
 import {SearchOutlined} from "@ant-design/icons"
-import axios from 'axios';
+
 import Swal from 'sweetalert2';
-import { render } from 'react-dom';
+
 import XLSX from "xlsx"
 import clienteAxios from '../config/axios';
 const ContentSolicitudAdmin = (props) => {
-  const [open, setOpen] = useState(false)
+ 
   const [datos, setDatos] =useState([])
 
 
@@ -256,7 +256,7 @@ const obtenerDatos = async (e) =>{
      <div className='flex justify-end mr-8 lg:mr-20'>
      <button type="submit"  className={` w-full font-mono lg:w-[8rem] h-12 tex
        hover:cursor-pointer mt-3 ml-10   uppercase bg-blue-500 hover:bg-blue-700 text-white font-bold  rounded inline-flex items-center justify-center `} onClick={handleOnExport}>
-        <svg class="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg>
+        <svg className="fill-current w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M13 8V2H7v6H2l8 8 8-8h-5zM0 18h20v2H0v-2z"/></svg>
    Exportar</button>
      </div>
      <div className='p-5'> 

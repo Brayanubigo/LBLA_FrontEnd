@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import clienteAxios from '../config/axios';
-import axios from 'axios';
+
 ChartJS.register(ArcElement, Tooltip, Legend);
 const Contents = (props) => {
   const [datos, setDatos] = useState([])
@@ -18,7 +18,7 @@ const Contents = (props) => {
        await clienteAxios.get('/soli/perfil').then(response =>{
         const res = response.data
         setDatos(res.data)
-        console.log(res.data)
+       
         var auxtipo=[], auxCantidad=[];
         
         setCount(res.length)
@@ -30,16 +30,14 @@ const Contents = (props) => {
         setTipo(auxtipo)
         setCantidad(auxCantidad)
        }) 
-      console.log(tipo)
-      console.log(cantidad)
+     
      
 
       }
 
-      const withoutDuplicates = [...new Set(tipo)];
-      const withoutDuplicatesCant =  [...new Set(cantidad)]
-      console.log(withoutDuplicates)
-      console.log(withoutDuplicatesCant)
+      let withoutDuplicates = [...new Set(tipo)];
+      let withoutDuplicatesCant =  [...new Set(cantidad)]
+      
       
 
   var data = {

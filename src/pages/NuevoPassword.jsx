@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Button, Checkbox, Form, Input } from 'antd';
+
 import Logo from '../assets/Insignia_Las_Acacias.png';
 import { Link, useParams } from 'react-router-dom';
 import Alerta from '../component/Alerta';
-import axios from 'axios';
-import Password from 'antd/es/input/Password';
+
 import { AiFillEye,AiFillEyeInvisible  } from "react-icons/ai";
 import clienteAxios from '../config/axios';
 

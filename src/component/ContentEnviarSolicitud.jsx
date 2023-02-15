@@ -1,9 +1,9 @@
 import { Select, Table, Tag } from 'antd';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+
 import Swal from 'sweetalert2';
 import useAuthUser from "../hooks/useAuthUser";
-import { DatePicker, Space } from 'antd';
+
 import moment from 'moment/moment';
 import 'moment/locale/es';
 import clienteAxios from '../config/axios';

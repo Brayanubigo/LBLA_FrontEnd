@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Button, Checkbox, Form, Input } from 'antd';
+
 import Logo from '../assets/Insignia_Las_Acacias.png';
 import { Link, useNavigate, useParams} from 'react-router-dom';
 import Alerta from '../component/Alerta'

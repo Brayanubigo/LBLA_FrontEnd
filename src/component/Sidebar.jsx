@@ -5,7 +5,7 @@ import { MdLogout, MdOutlineContentPaste, MdOutlineSpaceDashboard, MdChromeReade
 import { FiUserPlus } from "react-icons/fi";
 import logo from '../assets/Insignia_Las_Acacias.png'
 import { Link, NavLink } from 'react-router-dom';
-import Contents from './Contents';
+
 import useAuth from '../hooks/useAuth';
 
 

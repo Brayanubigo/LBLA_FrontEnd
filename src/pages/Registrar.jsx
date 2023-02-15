@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import { Button, Checkbox, Form, Input } from 'antd';
+
 import Logo from '../assets/Insignia_Las_Acacias.png';
 import { Link, useNavigate } from 'react-router-dom';
 import Alerta from '../component/Alerta'
-import axios from 'axios';
-import useAuth from '../hooks/useAuth';
+
 import Swal from 'sweetalert2';
 import validator from 'validator'
 import { AiFillEye,AiFillEyeInvisible  } from "react-icons/ai";
