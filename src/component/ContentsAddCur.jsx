@@ -1,13 +1,37 @@
-import { Space, Table, Tag } from 'antd';
-import { useState, useEffect } from 'react';
 
+import { useState, useEffect } from 'react';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import ImportContactsIcon from '@mui/icons-material/ImportContacts';
 import Swal from 'sweetalert2';
 import clienteAxios from '../config/axios';
+import Alerta from './Alerta';
+import TablePagination from '@mui/material/TablePagination';
+import TableFooter from '@mui/material/TableFooter';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+
+import { DataGrid } from '@mui/x-data-grid';
+
+
+
+
+
 const ContentsAddCur = (props) => {
   const [open, setOpen] = useState(false)
   const [nombre, setNombre] = useState('')
   const [profesor, setProfesor] = useState('')
   const [datos, setDatos] =useState([])
+  const [alerta, setAlerta] = useState({})
+  const [pageSize, setPageSize] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  
   
   useEffect(() => {
     obtenerDatos()
@@ -56,8 +80,8 @@ async function  eliminar(id) {
 const obtenerDatos = async (e) =>{
   const url = '/curso/perfil'
     const res = await clienteAxios.get(url)
-  console.log(res.data)
-    setDatos(res.data)
+ 
+    setDatos(res.data.reverse())
 }
 
 
@@ -65,13 +89,10 @@ const obtenerDatos = async (e) =>{
     e.preventDefault()
   
     if([nombre].includes("")){
-    Swal.fire({
-      title: 'Todos los campos obligatorios',
-      icon:'error',
-      timer: 1500
-    }
+      setAlerta({msg:'Todos los campos son obligatorios', error:true})
+      return
       
-    )
+    
   } else{
 
     try{
@@ -108,24 +129,30 @@ const obtenerDatos = async (e) =>{
  };
  
 
+ const columns = [
+  
+  { field: 'nombre', headerName: 'Nombre', width: 130,flex:1, align:"center" },
+  { field: 'Accion', flex:1, headerName: 'Accion',align:"center"  ,width: 130, 
+  renderCell:params=><Button color="error" style={{marginLeft:8}} 
+  variant="outlined" startIcon={<DeleteIcon />} onClick={() => 
+  eliminar(params.row._id)}>
+  Eliminar</Button> }
+];
 
-  
-  const columns = [
-    {
-      title: 'Curso',
-      dataIndex: 'nombre',
-      key: 'nombre',
-    },
-  
-    {
-      title: 'Accion',
-      dataIndex: 'accion',
-      key: 'accion',
-      render: (fila,row) => <>   <button type="submit"  className={`  font-mono h-12 w-full
-      hover:cursor-pointer   bg-red-500 hover:bg-red-400  font-bold  rounded mt-1 ml-1  text-white uppercase `} onClick={() => eliminar(row._id)}> Eliminar </button> </>
-    }
-  
-  ];
+
+
+ const handleChangePage = (event, newPage) => {
+  setPage(newPage);
+};
+
+const handleChangeRowsPerPage = (event) => {
+  setRowsPerPage(parseInt(event.target.value, 10));
+  setPage(0);
+};
+
+
+ const {msg} = alerta
+
   
   return (
     
@@ -133,45 +160,122 @@ const obtenerDatos = async (e) =>{
 <>
      <div className={`duration-400 ${props.open ? "pl-[7rem] pt-7": "p-12"}`}>
      
-     <button type="submit" onClick={handleClick} className={` font-mono h-12 w-full
-       hover:cursor-pointer   bg-blue-500 hover:bg-blue-700  font-bold  rounded mt-1 ml-1  text-white uppercase `}>{open ? " Ocultar " : "Agregar curso" } </button>
-     <div className={`bg-slate-100 duration-700 my-5 border-black p-5 pt-8 ${open ? "block w-full" : "hidden" }
+     <Button variant="contained" endIcon={open ? "" : <ImportContactsIcon/>} type="submit" onClick={handleClick} className={` font-mono h-12 w-full
+       hover:cursor-pointer  rounded mt-1 ml-1   uppercase `}>{open ? " Ocultar " : "Agregar Curso" } </Button>
+     <div className={` border-black  ${open ? "block w-full" : "hidden" }
      `}>
+        {msg && <Alerta 
+          alerta={alerta}/>}
        <form onSubmit={handleSubmit}>
-        <div className='grid grid-cols-1 lg:grid-cols-2'>
         
-          <div>
-          <label className=' uppercase text-gray-600 block font-mono' htmlFor="">Nombre</label>
-          
-          <input className='border lg:w-[15rem] w-full p-2 mt-3 bg-gray-50 rounded-xl' type="text"
-           placeholder='Nombre' value={nombre} onChange={ e => setNombre(e.target.value)} />
-          </div>
+        <div className='grid grid-cols-1 lg:grid-cols-2 bg-white mt-2 shadow-2xl border items-center '>
+        
+          <div className='m-5'>
+         
+    
+      <TextField id="outlined-basic" label="Nombre Completo" variant="outlined" value={nombre} onChange={e => setNombre(e.target.value)} />
       
-          
-          
+ 
+          </div>
+         
+        
      
-           <div>
-           <label className=' uppercase text-gray-600 block font-mono' htmlFor="">Accion</label>
-           
-           <button type="submit"  className={` font-mono h-12 w-full
-      hover:cursor-pointer   bg-blue-500 hover:bg-blue-700  font-bold  rounded mt-1 ml-1  text-white uppercase `}> Agregar </button>
+           <div className='m-5 '>
+           <Button variant="contained" endIcon={<ImportContactsIcon />} onClick={handleSubmit}>
+        Agregar Curso
+      </Button>
            
            </div>
           
-         
-
-
+      
 
         </div>
         </form>
+ 
      </div>
      
      
      
+     <div style={{ height: 500, width: '100%' }} className="mt-5">
+    
+     <DataGrid
+        rows={datos}
+        getRowId={(row) => row._id}
+        columns={columns}
+        pageSize={pageSize}
+        rowsPerPageOptions={[5,10,20]}
+        onPageSizeChange={(newPageSize)=>setPageSize(newPageSize)}
+        getRowHeight={() => 'auto'}
+        getEstimatedRowHeight={() => 100}
+          sx={{
+          '&.MuiDataGrid-root--densityCompact .MuiDataGrid-cell': {
+            py: 1,
+          },
+          '&.MuiDataGrid-root--densityStandard .MuiDataGrid-cell': {
+            py: '15px',
+          },
+          '&.MuiDataGrid-root--densityComfortable .MuiDataGrid-cell': {
+            py: '22px',
+          },
+        }}
+       
+        getRowSpacing={params =>({
+          top:params.isFirstVisible ? 0 : 5,
+          bottom:params.isLastVisible ? 0 : 5,
+        })}
+        
+      />
+    
+    
+    
+     {/* <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <TableHead>
+          <TableRow>
+            <TableCell align="center">Nombre</TableCell>
+            <TableCell align="center">Acción</TableCell>
+            
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {datos.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
+
+            <TableRow
+              key={row._id}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+            
+              <TableCell align="center">{row.nombre}</TableCell>
+           
+              <TableCell align="center" >
+             
+                <Button color="error" style={{marginLeft:8}} variant="outlined" startIcon={<DeleteIcon />} onClick={() => eliminar(row._id)}>
+                  Eliminar</Button>
+                  
+                  </TableCell>
+            
+            </TableRow>
+          ))}
+        </TableBody>
+        <TablePagination
+        rowsPerPageOptions={[5, 10, 25]}
+        component="div"
+        count={datos.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onChangePage={handleChangePage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+      />
+      </Table>
+    </TableContainer> */}
+     </div>
      
-     <div className='mt-[4rem] duration-400'>
+
+
+
+     {/* <div className='mt-[4rem] duration-400'>
      <Table dataSource={datos} columns={columns}  />
-      </div>
+      </div> */}
      </div>
     
     </>

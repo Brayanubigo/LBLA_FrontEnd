@@ -9,7 +9,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
     "@material-tailwind/react": "^1.2.5",
+    "@mui/icons-material": "^5.11.9",
+    "@mui/material": "^5.11.9",
+    "@mui/styled-engine-sc": "^5.11.9",
+    "@mui/x-data-grid": "^5.17.24",
     "antd": "^5.1.4",
     "axios": "^1.2.2",
     "chart.js": "^4.2.0",
@@ -22,6 +28,7 @@
     "react-router-dom": "^6.6.2",
     "react-to-print": "^2.14.11",
     "socket.io-client": "^4.5.4",
+    "styled-components": "^5.3.6",
     "sweetalert2": "^11.7.1",
     "validator": "^13.7.0",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.19.2/xlsx-0.19.2.tgz"

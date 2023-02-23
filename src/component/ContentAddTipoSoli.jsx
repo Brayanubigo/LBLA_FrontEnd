@@ -3,12 +3,26 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import clienteAxios from '../config/axios';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Alerta from './Alerta';
+import NoteAddIcon from '@mui/icons-material/NoteAdd';
+import { DataGrid } from '@mui/x-data-grid';
+import DeleteIcon from '@mui/icons-material/Delete';
+
+
+
+
 const ContentAddATipoSoli = (props) => {
   const [open, setOpen] = useState(false)
   const [nombre, setNombre] = useState('')
   const [profesor, setProfesor] = useState('')
   const [datos, setDatos] =useState([])
-  
+  const [pageSize, setPageSize] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [alerta, setAlerta] = useState({})
+
+
   useEffect(() => {
     obtenerDatos()
     }, []);
@@ -110,57 +124,50 @@ const obtenerDatos = async (e) =>{
 
 
   
-  const columns = [
-    {
-      title: 'Tipo Solicitud',
-      dataIndex: 'nombre',
-      key: 'nombre',
-    },
+ const columns = [
   
-    {
-      title: 'Accion',
-      dataIndex: 'accion',
-      key: 'accion',
-      render: (fila,row) => <>   <button type="submit"  className={`  font-mono h-12 w-full
-      hover:cursor-pointer   bg-red-500 hover:bg-red-400  font-bold  rounded mt-1 ml-1  text-white uppercase `} onClick={() => eliminar(row._id)}> Eliminar </button> </>
-    }
-  
-  ];
-  
+  { field: 'nombre', headerName: 'Nombre', width: 130,flex:1, align:"center" },
+  { field: 'Accion', flex:1, headerName: 'Accion',align:"center"  ,width: 130, 
+  renderCell:params=><Button color="error" style={{marginLeft:8}} 
+  variant="outlined" startIcon={<DeleteIcon />} onClick={() => 
+  eliminar(params.row._id)}>
+  Eliminar</Button> }
+];
+const {msg} = alerta
   return (
     
   
 <>
      <div className={`duration-400 ${props.open ? "pl-[7rem] pt-7": "p-12"}`}>
      
-     <button type="submit" onClick={handleClick} className={` font-mono h-12 w-full
-       hover:cursor-pointer   bg-blue-500 hover:bg-blue-700  font-bold  rounded mt-1 ml-1  text-white uppercase `}>{open ? " Ocultar " : "Agregar Tipo de Solicitud" } </button>
-     <div className={`bg-slate-100 duration-700 my-5 border-black p-5 pt-8 ${open ? "block w-full" : "hidden" }
+     <Button variant="contained" endIcon={open ? "" : <NoteAddIcon/>} type="submit" onClick={handleClick} className={` font-mono h-12 w-full
+       hover:cursor-pointer  rounded mt-1 ml-1   uppercase `}>{open ? " Ocultar " : "Agregar Tipo de Insumo" } </Button>
+     <div className={` border-black  ${open ? "block w-full" : "hidden" }
      `}>
+        {msg && <Alerta 
+          alerta={alerta}/>}
        <form onSubmit={handleSubmit}>
-        <div className='grid grid-cols-1 lg:grid-cols-2'>
         
-          <div>
-          <label className=' uppercase text-gray-600 block font-mono' htmlFor="">Nombre</label>
-          
-          <input className='border lg:w-[15rem] w-full p-2 mt-3 bg-gray-50 rounded-xl' type="text"
-           placeholder='Nombre' value={nombre} onChange={ e => setNombre(e.target.value)} />
-          </div>
+        <div className='grid grid-cols-1 lg:grid-cols-2 bg-white mt-2 shadow-2xl border items-center '>
+        
+          <div className='m-5'>
+         
+    
+      <TextField id="outlined-basic" label="Nombre Completo" variant="outlined" value={nombre} onChange={e => setNombre(e.target.value)} />
       
-          
-          
+ 
+          </div>
+         
+        
      
-           <div>
-           <label className=' uppercase text-gray-600 block font-mono' htmlFor="">Accion</label>
-           
-           <button type="submit"  className={` font-mono h-12 w-full
-      hover:cursor-pointer   bg-blue-500 hover:bg-blue-700  font-bold  rounded mt-1 ml-1  text-white uppercase `}> Agregar </button>
+           <div className='m-5 '>
+           <Button variant="contained" endIcon={<NoteAddIcon />} onClick={handleSubmit}>
+        Agregar Tipo de Insumo
+      </Button>
            
            </div>
           
-         
-
-
+      
 
         </div>
         </form>
@@ -169,8 +176,34 @@ const obtenerDatos = async (e) =>{
      
      
      
-     <div className='mt-[4rem] duration-400'>
-     <Table dataSource={datos} columns={columns}  />
+     <div style={{ height: 600, width: '100%' }} className="mt-5">
+     <DataGrid
+        rows={datos}
+        getRowId={(row) => row._id}
+        columns={columns}
+        pageSize={pageSize}
+        rowsPerPageOptions={[5,10,20]}
+        onPageSizeChange={(newPageSize)=>setPageSize(newPageSize)}
+        getRowHeight={() => 'auto'}
+        getEstimatedRowHeight={() => 100}
+          sx={{
+          '&.MuiDataGrid-root--densityCompact .MuiDataGrid-cell': {
+            py: 1,
+          },
+          '&.MuiDataGrid-root--densityStandard .MuiDataGrid-cell': {
+            py: '15px',
+          },
+          '&.MuiDataGrid-root--densityComfortable .MuiDataGrid-cell': {
+            py: '22px',
+          },
+        }}
+       
+        getRowSpacing={params =>({
+          top:params.isFirstVisible ? 0 : 5,
+          bottom:params.isLastVisible ? 0 : 5,
+        })}
+        
+      />
       </div>
      </div>
     
