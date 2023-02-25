@@ -292,7 +292,7 @@ No Entregado</Button>  },
 variant="contained" startIcon={<DownloadForOfflineIcon />} onClick={handleOnExport}>
 Exportar </Button> 
      </div>
-     <div style={{ height: 750, width: '100%' }} className="mt-5">
+     <div style={{ height: 700, width: '100%' }} className="mt-5">
      <DataGrid
         rows={datos}
         getRowId={(row) => row._id}

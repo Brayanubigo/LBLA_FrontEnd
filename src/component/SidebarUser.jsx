@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { BsArrowLeftShort } from "react-icons/bs";
-import { MdLogout, MdOutlineContentPaste, MdOutlineSpaceDashboard, MdChromeReaderMode } from "react-icons/md";
+import { MdLogout, MdOutlineContentPaste, MdOutlineHistory, MdChromeReaderMode } from "react-icons/md";
 import { FiUserPlus } from "react-icons/fi";
 import logo from '../assets/Insignia_Las_Acacias.png'
 import { Link, NavLink } from 'react-router-dom';
@@ -18,6 +18,7 @@ const SidebarUser = (props) => {
    const Menus = [
     
       {tittle:"Enviar Solicitud", icon:<MdOutlineContentPaste/>, spacing: true },
+      {tittle:"Historial", icon:<MdOutlineHistory/>, spacing: true },
       {tittle:"Cerrar Sesión", icon:<MdLogout/>, danger:true, spacing: true, onClick: cerrarSesionU },
     ]
  

@@ -1,14 +1,18 @@
-import { Select, Table, Tag } from 'antd';
+
 import { useState, useEffect } from 'react';
 
 import Swal from 'sweetalert2';
 import useAuthUser from "../hooks/useAuthUser";
-
+import TextField from '@mui/material/TextField';
 import moment from 'moment/moment';
 import 'moment/locale/es';
 import clienteAxios from '../config/axios';
-
-
+import Select from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Button from '@mui/material/Button';
+import SendIcon from '@mui/icons-material/Send';
 
 const ContentEnviarSolicitud = (props) => {
   const {authu } = useAuthUser();
@@ -27,7 +31,9 @@ const ContentEnviarSolicitud = (props) => {
   const [fechaPedido, setfechaPedido]= useState("")
   const [time, setTime] = useState("")
 
-
+  const handleChangeFechaPedido = (newValue) => {
+    setfechaPedido(newValue);
+  };
 
 
   const handleChange = event => {
@@ -220,38 +226,80 @@ const resetForm = () =>{
         <div className='grid grid-col-1 md:grid-cols-2 lg:grid-cols-3 '>
         
           <div>
-          <label className=' uppercase text-gray-600 block font-mono' htmlFor="">Nombre Completo:</label>
+        
           
-          <input className='border lg:w-[15rem] w-full p-2 mt-3 bg-gray-50 rounded-xl' type="text"
-           placeholder='Nombre' value={authu.nombre} onChange={ (e) => setNombre(e.target.value)} disabled={true} />
+          <TextField id="filled-basic" label="Nombre Completo"  value={authu.nombre} onChange={ (e) => setNombre(e.target.value)} disabled={true} />
+          {/* <input className='border lg:w-[15rem] w-full p-2 mt-3 bg-gray-50 rounded-xl' type="text"
+           placeholder='Nombre' value={authu.nombre} onChange={ (e) => setNombre(e.target.value)} disabled={true} /> */}
           </div>
       
          
         
 
-           <div>
-           <label className=' uppercase text-gray-600 block font-mono' htmlFor="">Tipo de Insumo:</label>
+           <div className='mt-5 lg:mt-0'>
           
-           <select className='border lg:w-[15rem] w-full p-2 mt-3 bg-gray-50 rounded-xl' value={tipo} onChange={handleChangeTipo}>
-           <option  value="" >Seleccione Insumo</option>
-        {datosTipo.map(option => (
-          <option key={option.nombre} value={option.nombre} >
-            {option.nombre}
-          </option>
+           <FormControl variant="filled" sx={{ m: 0, minWidth: 230 }}>
+        <InputLabel id="demo-simple-select-filled-label">Tipo de insumo</InputLabel>
+        <Select
+          labelId="demo-simple-select-filled-label"
+          id="demo-simple-select-filled"
+          value={tipo}
+          onChange={handleChangeTipo}
+        >
+          <em>Seleccina el tipo de insumo</em>
+          {datosTipo.map(option => (
+           <MenuItem value={option.nombre}>
+          
+          {option.nombre}
+         </MenuItem>
+         
         ))}
-      </select>
+          
+        
+        </Select>
+      </FormControl>
            </div>
            
 
-           <div>
-          <label className=' uppercase text-gray-600 block font-mono' htmlFor="">Cantidad:</label>
+           <div className='mt-5 lg:mt-0'>
+           <TextField
+          id="filled-basic"
+          label="Cantidad"
+          variant="filled"
+          type="number"
+          value={cantidad} 
+          onChange={ e => setCantidad(e.target.value)}
+        />
+          {/* <label className=' uppercase text-gray-600 block font-mono' htmlFor="">Cantidad:</label>
           
           <input className='border lg:w-[15rem] w-full p-2 mt-3 bg-gray-50 rounded-xl' type="number"
-           placeholder='Cantidad' value={cantidad} onChange={ e => setCantidad(e.target.value)} />
+           placeholder='Cantidad' value={cantidad} onChange={ e => setCantidad(e.target.value)} /> */}
           </div>
 
-           <div className='mt-7'>
-         <label className=' uppercase text-gray-600 block font-mono' htmlFor="">Curso:</label>
+           <div className='mt-5 lg:mt-7'>
+        
+           <FormControl variant="filled" sx={{ m: 0, minWidth: 230 }}>
+        <InputLabel id="demo-simple-select-filled-label">Curso</InputLabel>
+        <Select
+          labelId="demo-simple-select-filled-label"
+          id="demo-simple-select-filled"
+          value={curso}
+          onChange={handleChange}
+        >
+          <em>Seleccina Curso</em>
+          {datosCurso.map(option => (
+           <MenuItem value={option.nombre}>
+          
+          {option.nombre}
+         </MenuItem>
+         
+        ))}
+          
+        
+        </Select>
+      </FormControl>
+
+         {/* <label className=' uppercase text-gray-600 block font-mono' htmlFor="">Curso:</label>
            <select className='border lg:w-[15rem] w-full p-2 mt-3 bg-gray-50 rounded-xl' value={curso} onChange={handleChange} >
            <option  value="" >Seleccione Curso</option>
         {datosCurso.map(option => (
@@ -260,14 +308,35 @@ const resetForm = () =>{
             {option.nombre}
           </option>
         ))}
-      </select>
+      </select> */}
            </div>
         
           
 
       
-           <div className='mt-7'>
-          <label className=' uppercase text-gray-600 block font-mono' htmlFor="">Asignatura</label>
+           <div className='mt-5 lg:mt-7'>
+          
+           <FormControl variant="filled" sx={{ m: 0, minWidth: 230 }}>
+        <InputLabel id="demo-simple-select-filled-label">Asignatura</InputLabel>
+        <Select
+          labelId="demo-simple-select-filled-label"
+          id="demo-simple-select-filled"
+          value={asignatura}
+          onChange={handleChangeAsig}
+        >
+          <em>Seleccine Asignatura</em>
+          {datosAsignatura.map(option => (
+           <MenuItem value={option.nombre}>
+          
+          {option.nombre}
+         </MenuItem>
+         
+        ))}
+          
+        
+        </Select>
+      </FormControl>
+          {/* <label className=' uppercase text-gray-600 block font-mono' htmlFor="">Asignatura</label>
           
           <select className='border lg:w-[15rem] w-full p-2 mt-3 bg-gray-50 rounded-xl' value={asignatura} onChange={handleChangeAsig} >
            <option  value="" >Seleccione Asignatura</option>
@@ -277,31 +346,78 @@ const resetForm = () =>{
             {option.nombre}
           </option>
         ))}
-      </select>
+      </select> */}
           </div>
            
           <div className='mt-7'>
-          <label className=' uppercase text-gray-600 block font-mono' htmlFor="">Descripción:</label>
+          
+          <TextField
+          id="filled-multiline-static"
+          label="Descripción"
+          multiline
+          rows={3}
+          variant="filled"
+        />
+          {/* <label className=' uppercase text-gray-600 block font-mono' htmlFor="">Descripción:</label>
           
           <textarea className='border lg:w-[15rem] w-full p-2 mt-3 bg-gray-50 rounded-xl' type="text" rows="3"
            placeholder='Opcional' value={descripcion} onChange={ e => setDescipcion(e.target.value)} />
-           
+            */}
           </div>
           
-          <div className=''>
-          <label className=' uppercase text-gray-600 block font-mono' htmlFor="">Hora de pedido:</label>
+          <div className='mt-5 lg:m-0'>
+        
+          <TextField
+        id="date"
+        label="Fecha de pedido"
+        type="date"
+        defaultValue={Date.now()}
+        variant="filled"
+        value={fechaPedido}
+        onChange={e => setfechaPedido(e.target.value)}
+        sx={{ width: 220 }}
+        InputLabelProps={{
+          shrink: true,
+        }}
+      />
+     <div className='mt-2'>
+     <TextField
+        id="time"
+        label="Hora de pedido"
+        type="time"
+        defaultValue="08:00"
+       
+        value={time}
+        onChange={e => setTime(e.target.value)}
+        variant='filled'
+        InputLabelProps={{
+          shrink: true,
+        }}
+        inputProps={{
+          step: 300, // 5 min
+        }}
+        sx={{ width: 150, marginLeft:2 }}
+      />
+     </div>
+        
+          
+          {/* <label className=' uppercase text-gray-600 block font-mono' htmlFor="">Hora de pedido:</label>
           <input className='border lg:w-[15rem] w-full p-2 mt-3 bg-gray-50 rounded-xl' type="date" 
           value={fechaPedido} onChange={ e => setfechaPedido(e.target.value)} format="dd/mm/yyyy"/>
           <input className='block border lg:w-[15rem] w-full p-2 mt-3 bg-gray-50 rounded-xl' type="time" id="appt" 
        min="08:00" max="18:00" value={time} onChange={ e => setTime(e.target.value)} />
-           
+            */}
           </div>
           
 
-          <div className=''>
-          <label className=' uppercase text-gray-600 block font-mono text-center' htmlFor="">Accion:</label>
+          <div className='mt-5'>
+
+          <Button style={{width:150, height:55}} variant="contained" endIcon={<SendIcon />} onClick={handleSubmit}>
+        Enviar
+      </Button>
+          {/* <label className=' uppercase text-gray-600 block font-mono text-center' htmlFor="">Accion:</label>
       <button type="submit"  className={` font-mono h-12 w-full
-       hover:cursor-pointer   bg-blue-500 hover:bg-blue-700  font-bold  rounded mt-1 ml-1  text-white uppercase `}> Enviar </button>
+       hover:cursor-pointer   bg-blue-500 hover:bg-blue-700  font-bold  rounded mt-1 ml-1  text-white uppercase `}> Enviar </button> */}
 
  
           </div>
@@ -312,7 +428,7 @@ const resetForm = () =>{
         </div>
         <div className={`duration-400 ${props.open ? "pl-[7rem] pt-7": "pl-12"}`}>
      <div className='duration-400'>
-     <Table dataSource={datosSoli} columns={columns}  />
+     {/* <Table dataSource={datosSoli} columns={columns}  /> */}
       </div>
  
       </div>

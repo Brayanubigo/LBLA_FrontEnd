@@ -16,6 +16,7 @@
     "@mui/material": "^5.11.9",
     "@mui/styled-engine-sc": "^5.11.9",
     "@mui/x-data-grid": "^5.17.24",
+    "@mui/x-date-pickers": "^5.0.20",
     "antd": "^5.1.4",
     "axios": "^1.2.2",
     "chart.js": "^4.2.0",

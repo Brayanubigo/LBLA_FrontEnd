@@ -2,18 +2,37 @@ import { useState, useEffect } from 'react';
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import clienteAxios from '../config/axios';
+import PeopleIcon from '@mui/icons-material/People';
+import { MdGroup, MdOutlineContentPaste } from "react-icons/md";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 const Contents = (props) => {
   const [datos, setDatos] = useState([])
+  const [datosUser, setDatosUser] = useState([])
   const [tipo, setTipo] = useState([])
   const [cantidad, setCantidad] = useState([])
   const [count, setCount] = useState([])
+  const [countUser, setCountUser] = useState([])
+
   useEffect(() => {
-    obtenerDatos()
+    obtenerDatos(),
+    obtenerUsuario()
     }, []);
   
    
+
+    const obtenerUsuario = async () =>{
+      await clienteAxios.get('/user/perfiles').then(response =>{
+       const res = response.data
+       setDatosUser(res.data)       
+       setCountUser(res.length)
+       
+    
+      }) 
+    
+     }
+
+    
     const obtenerDatos = async () =>{
        await clienteAxios.get('/soli/perfil').then(response =>{
         const res = response.data
@@ -72,14 +91,28 @@ const Contents = (props) => {
 <>
      <div className={`duration-400 ${props.open ? "pl-[7rem] pt-7": "p-7"}`}>
      <div className='grid grid-cols-1 md:grid-cols-1  lg:grid-cols-2 xl:grid-cols-3'>
-     <div className='lg:w-[25rem] bg-slate-200 border shadow-2xl'>
-      <h2 className='text-center font-bold'>Productos más solicitados</h2>
+     <div className='mt-5 border h-[20rem] w-full  lg:w-[25rem] xl:w-[28rem] shadow-xl flex flex-col justify-center items-center '>
+      <h1 className='text-center font-bold text-3xl'>Solicitudes totales </h1>
+      
+      <h1 className='font-bold text-4xl flex  justify-center items-center '> <MdOutlineContentPaste size={150} style={{margin:5}}/> {count}</h1>
+   
+      
+      
+    </div>
+    <div className='mt-5 border h-[20rem] w-full lg:w-[25rem] xl:w-[28rem] shadow-xl flex flex-col justify-center items-center '>
+      <h1 className='text-center font-bold text-3xl'>Usuarios totales </h1>
+      
+      <h1 className='font-bold text-4xl flex  justify-center items-center '> <MdGroup size={150} style={{margin:5}}/> {countUser}</h1>
+   
+      
+      
+    </div>
+     <div className='lg:w-[25rem] bg-slate-200 border shadow-2xl mt-5 lg:mt-5'>
+      <h2 className='text-center font-bold '>Productos más solicitados</h2>
      <Pie data={data} />
      </div>
-    <div className='mt-5 border h-16 w-full lg:w-[19rem] shadow-xl flex justify-center items-center'>
-      <h1 className='text-center font-bold'>Solicitudes totales: {count}</h1>
-     
-    </div>
+ 
+    
      </div>
     
     

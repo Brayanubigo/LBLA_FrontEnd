@@ -35,7 +35,7 @@ const Nav = () => {
         dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
         <MdNotifications/>
       <span className="sr-only">Notifications</span>
-      <div className="absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-gray-900">20</div>
+      <div className="uppercase absolute inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -right-2 dark:border-gray-900">20</div>
           </button>
             Bienvenid@ {auth.nombre}
             
