@@ -107,10 +107,10 @@ const Contents = (props) => {
       
       
     </div>
-     <div className='lg:w-[25rem] bg-slate-200 border shadow-2xl mt-5 lg:mt-5'>
+     {/* <div className='lg:w-[25rem] bg-slate-200 border shadow-2xl mt-5 lg:mt-5'>
       <h2 className='text-center font-bold '>Productos más solicitados</h2>
      <Pie data={data} />
-     </div>
+     </div> */}
  
     
      </div>
