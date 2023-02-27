@@ -90,8 +90,8 @@ const Contents = (props) => {
   
 <>
      <div className={`duration-400 ${props.open ? "pl-[7rem] pt-7": "p-7"}`}>
-     <div className='grid grid-cols-1 md:grid-cols-2  lg:grid-cols- xl:grid-cols-3'>
-     <div className='mt-5 border h-[20rem] w-full md:w-full  lg:w-[25rem] xl:w-[28rem] shadow-xl flex flex-col justify-center items-center '>
+     <div className='grid grid-cols-1 md:grid-cols-2  lg:grid-cols-2 xl:grid-cols-3'>
+     <div className='mt-5 border h-[20rem] w-full md:w-full  lg:w-full xl:w-[28rem] shadow-xl flex flex-col justify-center items-center '>
       <h1 className='text-center font-bold text-3xl'>Solicitudes totales </h1>
       
       <h1 className='font-bold text-4xl flex  justify-center items-center '> <MdOutlineContentPaste size={150} style={{margin:5}}/> {count}</h1>
@@ -99,7 +99,7 @@ const Contents = (props) => {
       
       
     </div>
-    <div className='mt-5 border h-[20rem] w-full lg:w-[25rem] xl:w-[28rem] shadow-xl flex flex-col justify-center items-center '>
+    <div className='mt-5 border h-[20rem] w-full lg:w-full xl:w-[28rem] shadow-xl flex flex-col justify-center items-center '>
       <h1 className='text-center font-bold text-3xl'>Usuarios totales </h1>
       
       <h1 className='font-bold text-4xl flex  justify-center items-center '> <MdGroup size={150} style={{margin:5}}/> {countUser}</h1>
