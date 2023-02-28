@@ -17,8 +17,8 @@ const SidebarUser = (props) => {
    const {cerrarSesionU} = useAtuhU()
    const Menus = [
     
-      {tittle:"Enviar Solicitud", icon:<MdOutlineContentPaste/>, spacing: true },
-      {tittle:"Historial", icon:<MdOutlineHistory/>, spacing: true },
+      {tittle:"Enviar Solicitud", icon:<MdOutlineContentPaste/>, spacing: true, link: "/usuario" },
+      {tittle:"Historial", icon:<MdOutlineHistory/>, spacing: true, link: "/usuario/historial" },
       {tittle:"Cerrar Sesión", icon:<MdLogout/>, danger:true, spacing: true, onClick: cerrarSesionU },
     ]
  

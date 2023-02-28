@@ -19,7 +19,7 @@ import SolicitudUser from './pages/Solicitud'
 import ConfirmarCuenta from './pages/ConfirmarCuenta'
 import ResetPassword from './pages/ResetPassword'
 import NuevoPassword from './pages/NuevoPassword'
-
+import Historial from './pages/Historial'
 
 function App() {
 
@@ -57,6 +57,7 @@ function App() {
           </Route>
           <Route path='/usuario' element={<RutaProtegidaUser />}>
             <Route index element={<SolicitudUser />} />
+            <Route path='historial'element={<Historial />} />
            
            
           </Route>

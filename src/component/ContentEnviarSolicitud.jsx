@@ -62,7 +62,7 @@ const ContentEnviarSolicitud = (props) => {
 
     const obtenerSoli = async () =>{
       const id = authu._id
-      
+    
       const url = `/soli/perfiluser/${id}`
         const res = await clienteAxios.get(url)
       console.log(res.data)
