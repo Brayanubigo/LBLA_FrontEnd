@@ -99,7 +99,7 @@ const Contents = (props) => {
       
       
     </div>
-    <div className='mt-5 border h-[20rem] ml-5 w-full shadow-xl flex flex-col justify-center items-center '>
+    <div className='mt-5 border h-[20rem] lg:ml-5 w-full shadow-xl flex flex-col justify-center items-center '>
       <h1 className='text-center font-bold text-3xl'>Usuarios totales </h1>
       
       <h1 className='font-bold text-4xl flex  justify-center items-center '> <MdGroup size={150} style={{margin:5}}/> {countUser}</h1>
