@@ -27,7 +27,7 @@ const ContentEnviarSolicitud = (props) => {
   const [identificador, setIdentificador] = useState(authu._id)
   const [asignatura, setAsignatura] = useState('')
   const [descripcion, setDescipcion] = useState('')
-  const [email,setEmail] = useState('brayan@gmail.com')
+  const [email,setEmail] = useState('brayan.ubigo@gmail.com')
   const [fechaPedido, setfechaPedido]= useState("")
   const [time, setTime] = useState("")
 
