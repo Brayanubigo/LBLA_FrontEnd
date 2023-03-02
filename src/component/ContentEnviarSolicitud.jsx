@@ -357,6 +357,7 @@ const resetForm = () =>{
           multiline
           rows={3}
           variant="filled"
+          value={descripcion} onChange={ e => setDescipcion(e.target.value)}
         />
           {/* <label className=' uppercase text-gray-600 block font-mono' htmlFor="">Descripción:</label>
           
