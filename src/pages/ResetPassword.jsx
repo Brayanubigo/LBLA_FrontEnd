@@ -88,7 +88,7 @@ const validateEmail=(email) => {
           {msg && <Alerta 
           alerta={alerta}/>}
 
-        <Box onSubmit={handleSubmit}>
+        <Box component="form" onSubmit={handleSubmit}>
           <div className=' mx-2 '>
        
 

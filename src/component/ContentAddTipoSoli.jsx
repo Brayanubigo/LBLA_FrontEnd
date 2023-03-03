@@ -9,6 +9,7 @@ import Alerta from './Alerta';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import { DataGrid } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { Box } from '@mui/material';
 
 
 
@@ -146,14 +147,18 @@ const {msg} = alerta
      `}>
         {msg && <Alerta 
           alerta={alerta}/>}
-       <form onSubmit={handleSubmit}>
+       <Box component="form" onSubmit={handleSubmit}>
         
         <div className='grid grid-cols-1 lg:grid-cols-2 bg-white mt-2 shadow-2xl border items-center '>
         
           <div className='m-5'>
          
     
-      <TextField id="outlined-basic" label="Nombre Completo" variant="outlined" value={nombre} onChange={e => setNombre(e.target.value)} />
+      <TextField 
+      required 
+      label="Nombre" 
+      variant="outlined" 
+      value={nombre} onChange={e => setNombre(e.target.value)} />
       
  
           </div>
@@ -161,7 +166,7 @@ const {msg} = alerta
         
      
            <div className='m-5 '>
-           <Button variant="contained" endIcon={<NoteAddIcon />} onClick={handleSubmit}>
+           <Button variant="contained" endIcon={<NoteAddIcon />} type="submit">
         Agregar Tipo de Insumo
       </Button>
            
@@ -170,7 +175,7 @@ const {msg} = alerta
       
 
         </div>
-        </form>
+        </Box>
      </div>
      
      

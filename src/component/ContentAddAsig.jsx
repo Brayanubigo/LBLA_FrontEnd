@@ -20,6 +20,7 @@ import Alerta from './Alerta';
 import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
 
 import { DataGrid } from '@mui/x-data-grid';
+import { Box } from '@mui/material';
 
 const ContentAddAsig = (props) => {
   const [open, setOpen] = useState(false)
@@ -150,14 +151,16 @@ const obtenerDatos = async (e) =>{
      `}>
         {msg && <Alerta 
           alerta={alerta}/>}
-       <form onSubmit={handleSubmit}>
+       <Box component="form" onSubmit={handleSubmit}>
         
         <div className='grid grid-cols-1 lg:grid-cols-2 bg-white mt-2 shadow-2xl border items-center '>
         
           <div className='m-5'>
          
     
-      <TextField id="outlined-basic" label="Nombre Completo" variant="outlined" value={nombre} onChange={e => setNombre(e.target.value)} />
+      <TextField id="outlined-basic" label="Nombre Completo" 
+      variant="outlined" 
+      required value={nombre} onChange={e => setNombre(e.target.value)} />
       
  
           </div>
@@ -165,7 +168,7 @@ const obtenerDatos = async (e) =>{
         
      
            <div className='m-5 '>
-           <Button variant="contained" endIcon={<LibraryAddIcon />} onClick={handleSubmit}>
+           <Button variant="contained" endIcon={<LibraryAddIcon />} type="submit">
         Agregar Asignatura
       </Button>
            
@@ -174,7 +177,7 @@ const obtenerDatos = async (e) =>{
       
 
         </div>
-        </form>
+        </Box>
  
      </div>
      
