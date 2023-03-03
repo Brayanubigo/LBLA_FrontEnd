@@ -18,6 +18,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
 import { DataGrid } from '@mui/x-data-grid';
+import { Box } from '@mui/material';
 
 
 
@@ -166,14 +167,14 @@ const handleChangeRowsPerPage = (event) => {
      `}>
         {msg && <Alerta 
           alerta={alerta}/>}
-       <form onSubmit={handleSubmit}>
+       <Box component="form" onSubmit={handleSubmit}>
         
         <div className='grid grid-cols-1 lg:grid-cols-2 bg-white mt-2 shadow-2xl border items-center '>
         
           <div className='m-5'>
          
     
-      <TextField id="outlined-basic" label="Nombre Completo" variant="outlined" value={nombre} onChange={e => setNombre(e.target.value)} />
+      <TextField required id="outlined-basic" label="Nombre Completo" variant="outlined" value={nombre} onChange={e => setNombre(e.target.value)} />
       
  
           </div>
@@ -181,7 +182,7 @@ const handleChangeRowsPerPage = (event) => {
         
      
            <div className='m-5 '>
-           <Button variant="contained" endIcon={<ImportContactsIcon />} onClick={handleSubmit}>
+           <Button variant="contained" type='submit' endIcon={<ImportContactsIcon />} >
         Agregar Curso
       </Button>
            
@@ -190,7 +191,7 @@ const handleChangeRowsPerPage = (event) => {
       
 
         </div>
-        </form>
+        </Box>
  
      </div>
      

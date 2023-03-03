@@ -35,11 +35,17 @@ const ContentsAddUser = (props) => {
   const [alerta, setAlerta] = useState({})
   const [showPassword, setShowPassword] = useState(false);
   const [textoError, setTextoError] = useState("")
-  const [errorEmail , setErrorEmail] = useState(false);
-  const [validEmail, setValidEmail] = useState(false);
+  const [error, setError] = useState({
+    error: false,
+    message:""
+  })
+ 
   const [pageSize, setPageSize] = useState(5);
 
-
+  const validateEmail=(email) => {
+    const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    return regex.test(email);
+  };
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
@@ -51,12 +57,7 @@ const ContentsAddUser = (props) => {
     setOpen(!open);
  }
 
- const handleEmailChange = (event) => {
-  setEmail(event.target.value);
-  // Validar correo electrónico con expresión regular
-  const regex = /\S+@\S+\.\S+/;
-  setValidEmail(regex.test(event.target.value));
-};
+
 
  const Toast = Swal.mixin({
   toast: true,
@@ -123,6 +124,20 @@ async function  eliminar(id) {
 
  const handleSubmit = async (e) => {
   e.preventDefault()
+  
+  if (!validateEmail(email)) {
+    setError({
+      error: true,
+      message: "El email no es valido",
+    });
+    return;
+  }else{
+    setError({
+      error: false,
+      message: "",
+    });
+  }
+
   if([nombre, password, email].includes('')){
       setAlerta({msg:'Todos los campos son obligatorios', error:true})
       return
@@ -131,10 +146,7 @@ async function  eliminar(id) {
     setAlerta({msg:'Email no valido', error:true})
     return
   }
-  if (!validEmail) {
-    console.log("Correo electrónico no válido");
-  } 
-  
+
       try{
         
           const url = '/user'
@@ -203,28 +215,18 @@ const columns = [
           <div className='m-5'>
          
     
-      <TextField id="outlined-basic" label="Nombre Completo" variant="outlined" value={nombre} onChange={e => setNombre(e.target.value)} />
+      <TextField  label="Nombre Completo" variant="outlined" required value={nombre} onChange={e => setNombre(e.target.value)} />
       
  
           </div>
           <div className='m-5'>
-            <TextField  label="Email" 
-            type="email" 
-            variant="outlined" 
-            value={email} 
-            onChange={(e) => {setEmail(e.target.value); if(email.length<5){
-              setErrorEmail(true)
-              setTextoError("Email no Valido")
-            }else{
-              setErrorEmail(false)
-              setTextoError("")
-            }
-          }
-          } 
-            error={errorEmail}
-            helperText={textoError}
-            
-            />
+          <TextField  label="Email" variant="outlined" 
+        value={email}
+        onChange={e => setEmail(e.target.value)} 
+        helperText={error.message}
+        type="email"
+        required
+        error={error.error}/>
             
           
           </div>
@@ -255,8 +257,8 @@ const columns = [
           </div>
           
      
-           <div className=' m-5'>
-           <Button style={{width:150, height:55}} variant="contained" endIcon={<PersonAddIcon />} onClick={handleSubmit}>
+           <div className=' m-5 '>
+           <Button style={{width:150, height:55}} variant="contained" endIcon={<PersonAddIcon />} type="submit">
         Agregar Usuario
       </Button>
            

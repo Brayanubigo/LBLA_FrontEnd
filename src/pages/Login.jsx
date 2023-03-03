@@ -1,25 +1,58 @@
 import { useState } from 'react';
-import { Button, Checkbox, Form, Input } from 'antd';
+
 import Logo from '../assets/Insignia_Las_Acacias.png';
 import Logo2 from '../assets/Electrónica.png'
 import Logo3 from '../assets/Párvulo.png'
 import { Link, useNavigate } from 'react-router-dom';
 import Alerta from '../component/Alerta'
-
+import { Box, Button, TextField } from '@mui/material';
 import useAuthUser from '../hooks/useAuthUser';
 import clienteAxios from '../config/axios';
-
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import InputAdornment from '@mui/material/InputAdornment';
+import FormControl from '@mui/material/FormControl';
+import IconButton from '@mui/material/IconButton';
 const Login = () => {
   
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [alerta, setAlerta] = useState({})
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState({
+    error: false,
+    message:""
+  })
   
+const validateEmail=(email) => {
+  const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+  return regex.test(email);
+};
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
   const {setAuthu } = useAuthUser()
   const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
-   
+      e.preventDefault()
+    if (!validateEmail(email)) {
+      setError({
+        error: true,
+        message: "El email no es valido",
+      });
+      return;
+    }else{
+      setError({
+        error: false,
+        message: "",
+      });
+    }
 
   
    try{
@@ -73,7 +106,52 @@ const Login = () => {
           alerta={alerta}/>}
 
 <div className=' flex lg:my-10 '>
-<Form
+
+<Box component="form"  onSubmit={handleSubmit}>
+
+<div className='my-5 '>
+        <TextField   label="Email" variant="outlined" 
+        value={email}
+        onChange={e => setEmail(e.target.value.toLowerCase())} 
+        helperText={error.message}
+        type="email"
+        required
+        fullWidth
+        error={error.error}/>
+      </div>
+         
+<div className='my-5 '>
+<FormControl sx={{   borderColor: "red" }} variant="outlined">
+          <InputLabel htmlFor="outlined-adornment-password">Contraseña</InputLabel>
+          <OutlinedInput
+            required
+            type={showPassword ? 'text' : 'password'}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+            label="Password" value={password} onChange={e => setPassword(e.target.value)} 
+          />
+        </FormControl>
+</div>
+   <div className='grid grid-cols-2'>
+              <Link className='flex justify-center hover:text-blue-300 duration-150 ' to="/registrarUsuario">¿No tienes cuenta? Crear cuenta</Link>
+      <Link className='flex justify-center ml-2 hover:text-blue-300 duration-150' to="/olvide-password">¿Olvidaste la contraseña?</Link>
+              </div>
+<div className='flex justify-center mt-5'>
+        <Button variant="contained" type='submit' size="large">Entrar</Button>
+      
+        
+        </div>
+{/* <Form
       name="basic"
       labelCol={{ span: 8 }}
       wrapperCol={{ span: 24 }}
@@ -88,7 +166,7 @@ const Login = () => {
         rules={[{ required: true, message: 'Porfavor ingresa un Email!' }]}
         
       >
-        <Input value={email} onChange={e => setEmail(e.target.value)} />
+        <Input value={email} onChange={e => setEmail(e.target.value.toLowerCase())} />
       </Form.Item>
 
       <Form.Item
@@ -97,20 +175,17 @@ const Login = () => {
         rules={[{ required: true, message: 'Porfavor ingresa una Contraseña!' }]}
       >
         <Input.Password value={password} onChange={e => setPassword(e.target.value)} />
-      </Form.Item>
-              <div className='grid grid-cols-2'>
-              <Link className='flex justify-center ' to="/registrarUsuario">¿No tienes cuenta? Crear cuenta</Link>
-      <Link className='flex justify-center ml-2' to="/olvide-password">¿Olvidaste la contraseña?</Link>
-              </div>
+      </Form.Item> */}
+           
     
-<div className='mt-5 xl:ml-[6rem]'>
+{/* <div className='mt-5 xl:ml-[6rem]'>
       <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
         <Button type="primary" ghost htmlType="submit">
             Entrar
         </Button>
       </Form.Item>
       </div>
-    </Form>
+    </Form> */}</Box>
 </div>
 
 

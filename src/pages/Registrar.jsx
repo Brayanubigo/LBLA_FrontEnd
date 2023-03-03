@@ -15,6 +15,7 @@ import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
 import IconButton from '@mui/material/IconButton';
+import { Box } from '@mui/material';
 const Registrar = () => {
   
   const [email, setEmail] = useState('')
@@ -24,8 +25,15 @@ const Registrar = () => {
   const [alerta, setAlerta] = useState({})
   const [mostrar , setMostrar] = useState(false)
   const [showPassword, setShowPassword] = useState(false);
-  const [emailError, setEmailError] = useState('')
+  const [error, setError] = useState({
+    error: false,
+    message:""
+  })
   
+const validateEmail=(email) => {
+  const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+  return regex.test(email);
+};
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (event) => {
@@ -40,18 +48,33 @@ const Registrar = () => {
   }
   
   
-
+  function toLower(str) {
+    return str.toLowerCase();
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    
+   
+    if (!validateEmail(email)) {
+      setError({
+        error: true,
+        message: "El email no es valido",
+      });
+      return;
+    }else{
+      setError({
+        error: false,
+        message: "",
+      });
+    }
+   
+   
     if([nombre, password, email,repetirPassword].includes('')){
         setAlerta({msg:'Todos los campos son obligatorios', error:true})
         return
     }
-    if(password < 5){
-      setAlerta({msg: 'Caracteres minimo 5 para la contraseña', error:true})
-      return
-  }
+  
     if(password !== repetirPassword){
         setAlerta({msg: 'Las contraseñas no son iguales', error:true})
         return
@@ -62,7 +85,7 @@ const Registrar = () => {
   
     
         try{
-          
+         
             const url = '/user'
             const {data} = await clienteAxios.post(url, {nombre,email, password})
             Swal.fire({
@@ -111,24 +134,30 @@ const Registrar = () => {
           {msg && <Alerta 
           alerta={alerta}/>}
 
-        <form onSubmit={handleSubmit}>
+        <Box component="form"  
+        onSubmit={handleSubmit}>
           <div className=' mx-2 '>
           <div className='my-5'>
-          <TextField id="outlined-basic" label="Nombre Completo" variant="outlined" value={nombre} onChange={e => setNombre(e.target.value)} />
-          {/* <label className=' uppercase text-gray-600 block font-mono' htmlFor="">Nombre completo:</label>
-          
-          <input className='border lg:w-[15rem] w-full p-2 mt-3 bg-gray-50 rounded-xl' type="text"
-           placeholder='Tu Nombre' value={nombre} onChange={e => setNombre(e.target.value)} /> */}
+          <TextField 
+           label="Nombre Completo" 
+           variant="outlined" 
+           value={nombre} 
+           onChange={e => setNombre(e.target.value)}
+           required />
+    
           
         </div>
 
 
-        <div className='my-5'>
-        <TextField id="outlined-basic" label="Email" variant="outlined" value={email} onChange={e => setEmail(e.target.value)} />
-          {/* <label className=' uppercase text-gray-600 block font-mono' htmlFor="">Email:</label>
-          
-          <input className='border lg:w-[15rem] w-full p-2 mt-3 bg-gray-50 rounded-xl' type="text"
-           placeholder='Email' value={email} onChange={e => {setEmail(e.target.value); validateEmail(e)}}  /> */}
+        <div className='my-5 '>
+        <TextField   label="Email" variant="outlined" 
+        value={email}
+        onChange={e => setEmail(e.target.value.toLowerCase())} 
+        helperText={error.message}
+        type="email"
+        required
+        error={error.error}/>
+      
           <div>
    
           </div>
@@ -141,7 +170,7 @@ const Registrar = () => {
         <FormControl sx={{   borderColor: "red" }} variant="outlined">
           <InputLabel htmlFor="outlined-adornment-password">Contraseña</InputLabel>
           <OutlinedInput
-            id="outlined-adornment-password"
+            required
             type={showPassword ? 'text' : 'password'}
             endAdornment={
               <InputAdornment position="end">
@@ -158,21 +187,14 @@ const Registrar = () => {
             label="Password" value={password} onChange={e => setPassword(e.target.value)} 
           />
         </FormControl>
-          {/* <label className=' uppercase text-gray-600 block font-mono' htmlFor="">Contraseña:</label>
-          
-          <input className='border lg:w-[15rem] w-full p-2 mt-3 bg-gray-50 rounded-xl' type={mostrar ? "text": "password"}
-           placeholder='Tu Contraseña' value={password} onChange={e => setPassword(e.target.value)} />
-                  <div className='inline-flex absolute ' onClick={() => setMostrar(!mostrar) }>
-            {mostrar ? <AiFillEyeInvisible className='  mt-5 cursor-pointer  
-            items-center text-2xl leading-5'/> :<AiFillEye className=' mt-5 cursor-pointer  items-center text-2xl leading-5'/>}
-            </div> */}
+    
         </div>
         <div className='my-5 real '>
           
         <FormControl sx={{   borderColor: "red" }} variant="outlined">
           <InputLabel htmlFor="outlined-adornment-password">Repita Contraseña</InputLabel>
           <OutlinedInput
-            id="outlined-adornment-password"
+           
             type={showPassword ? 'text' : 'password'}
             endAdornment={
               <InputAdornment position="end">
@@ -187,21 +209,12 @@ const Registrar = () => {
               </InputAdornment>
             }
             label="Password" value={repetirPassword} onChange={e => setRepetirPassword(e.target.value)} 
+            
           />
         </FormControl>
           
           
-          
-          {/* <label className=' uppercase text-gray-600 block  font-mono ' htmlFor="">Repetir contraseña:</label>
-
-          
-          <input className='border lg:w-[15rem] w-full p-2 mt-3 bg-gray-50 rounded-xl' type={mostrar ? "text": "password"}
-           placeholder='Tu Contraseña' value={repetirPassword} onChange={e => setRepetirPassword(e.target.value)} />
-            <div className='inline-flex absolute ' onClick={() => setMostrar(!mostrar) }>
-            {mostrar ? <AiFillEyeInvisible className='  mt-5 cursor-pointer  
-            items-center text-2xl leading-5'/> :<AiFillEye className=' mt-5 cursor-pointer  items-center text-2xl leading-5'/>}
-            </div>
-            */}
+      
         
     
          
@@ -212,15 +225,14 @@ const Registrar = () => {
       <Link className='flex justify-center  hover:text-blue-300 duration-150 ml-2' to='/olvide-password'>¿Olvidaste la contraseña?</Link>
               </div>
         <div className='flex justify-center mt-5'>
-        <Button variant="contained" onClick={handleSubmit} size="large">Registrar</Button>
-        {/* <input type="submit" value="Registrar" className=' duration-150   hover:bg-indigo-400 border-blue-600 border-2
-         w-full font-mono lg:w-[10rem] py-3 rounded-xl hover:cursor-pointer text-blue-600 hover:text-white uppercase'/> */}
+        <Button variant="contained" type='submit' size="large">Registrar</Button>
+      
         
         </div>
         
         
     </div>
-    </form>
+    </Box>
         </div>
         </div>
       </div>
