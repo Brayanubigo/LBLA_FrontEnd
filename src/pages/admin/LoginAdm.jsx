@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Checkbox, Form, Input } from 'antd';
+
 import Logo from '../../assets/Insignia_Las_Acacias.png';
 import { Link, useNavigate } from 'react-router-dom';
 import Alerta from '../../component/Alerta'
@@ -8,18 +8,53 @@ import useAuth from '../../hooks/useAuth';
 import Logo2 from '../../assets/Electrónica.png'
 import Logo3 from '../../assets/Párvulo.png'
 import clienteAxios from '../../config/axios';
+import { Box, Button, TextField } from '@mui/material';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import InputAdornment from '@mui/material/InputAdornment';
+import FormControl from '@mui/material/FormControl';
+import IconButton from '@mui/material/IconButton';
+
+
 const LoginAdm = () => {
   
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [alerta, setAlerta] = useState({})
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState({
+    error: false,
+    message:""
+  })
   
+const validateEmail=(email) => {
+  const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+  return regex.test(email);
+};
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
   const {setAuth } = useAuth()
   const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
-   
-
+    e.preventDefault()
+    if (!validateEmail(email)) {
+      setError({
+        error: true,
+        message: "El email no es valido",
+      });
+      return;
+    }else{
+      setError({
+        error: false,
+        message: "",
+      });
+    }
   
    try{
       const url = '/admin/login'
@@ -68,67 +103,53 @@ const LoginAdm = () => {
           alerta={alerta}/>}
 
 <div className=' flex lg:my-10 '>
-<Form
-      name="basic"
-      labelCol={{ span: 8 }}
-      wrapperCol={{ span: 24 }}
-      initialValues={{ remember: true }}
-      onFinish={handleSubmit}
-    
-      autoComplete="off"
-    >
-      <Form.Item
-        label="Email"
-        name="username"
-        rules={[{ required: true, message: 'Porfavor ingresa un Email!' }]}
+<Box component="form"  onSubmit={handleSubmit}>
+
+<div className='my-5 '>
+        <TextField   label="Email" variant="outlined" 
+        value={email}
+        onChange={e => setEmail(e.target.value.toLowerCase())} 
+        helperText={error.message}
+        type="email"
+        required
         
-      >
-        <Input value={email} onChange={e => setEmail(e.target.value)} />
-      </Form.Item>
-
-      <Form.Item
-        label="Contraseña"
-        name="password"
-        rules={[{ required: true, message: 'Porfavor ingresa una Contraseña!' }]}
-      >
-        <Input.Password value={password} onChange={e => setPassword(e.target.value)} />
-      </Form.Item>
-
-      <Link className='flex justify-center xl:ml-[6rem]'>¿Olvidaste la contraseña?</Link>
-<div className='mt-5 xl:ml-[6rem]'>
-      <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-        <Button type="primary" ghost htmlType="submit">
-            Entrar
-        </Button>
-      </Form.Item>
-      </div>
-    </Form>
+        error={error.error}/>
+      </div>    
+         
+<div className='my-5 '>
+<FormControl sx={{   borderColor: "red" }} variant="outlined">
+          <InputLabel htmlFor="outlined-adornment-password">Contraseña</InputLabel>
+          <OutlinedInput
+            required
+            type={showPassword ? 'text' : 'password'}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+            label="Password" value={password} onChange={e => setPassword(e.target.value)} 
+          />
+        </FormControl>
+</div>
+   <div className=' flex justify-center items-center'>
+            
+      <Link className='flex justify-center ml-2 hover:text-blue-300 duration-150' to="/olvide-password-admin">¿Olvidaste la contraseña?</Link>
+              </div>
+<div className='flex justify-center mt-5'>
+        <Button variant="contained" type='submit' size="large">Entrar</Button>
+      
+        
+        </div>
+</Box>
 </div>
 
-
-{/* 
-        <form onSubmit={handleSubmit}>
-          <div className='  lg:mt-[2rem] lg:ml-[3rem]'>
-      
-        <div className='my-5'>
-          <label className=' uppercase text-gray-600 block font-mono' htmlFor="">Email</label>
-          
-          <input className='border lg:w-[15rem] w-full p-2 mt-3 bg-gray-50 rounded-xl' type="text"
-           placeholder='Email' value={email} onChange={e => setEmail(e.target.value)} />
-          
-        </div>
-
-        <div className='my-5'>
-          <label className=' uppercase text-gray-600 block font-mono' htmlFor="">Contraseña</label>
-          
-          <input className='border lg:w-[15rem] w-full p-2 mt-3 bg-gray-50 rounded-xl' type="password"
-           placeholder='Tu Contraseña' value={password} onChange={e => setPassword(e.target.value)} />
-          
-        </div>
-        <input type="submit" value="Entrar" className=' bg-indigo-700 hover:bg-indigo-800 w-full font-mono lg:w-[10rem] py-3 rounded-xl hover:cursor-pointer text-white uppercase'/>
-        
-    </div>
-    </form> */}
         </div>
         </div>
       </div>

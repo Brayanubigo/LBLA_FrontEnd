@@ -14,7 +14,8 @@ import AñadirCurso from './pages/admin/AñadirCurso'
 import AdminSolicitudes from './pages/admin/Solicitudes'
 import AñadirAsignatura from './pages/admin/AñadirAsignatura'
 import AñadirTipoSoli from './pages/admin/AñadirTipoSoli'
-
+import ResetPasswordAdmin from './pages/admin/ResetPasswordAdmin'
+import NuevoPasswordAdmin from './pages/admin/NuevaPasswordAdmin'
 import SolicitudUser from './pages/Solicitud'
 import ConfirmarCuenta from './pages/ConfirmarCuenta'
 import ResetPassword from './pages/ResetPassword'
@@ -34,6 +35,9 @@ function App() {
             
             <Route path='registrarUsuario' element={<Registrar/>}/>
             <Route path='confirmar/:id' element={<ConfirmarCuenta/>}/>
+            <Route path='olvide-password-admin' element={<ResetPasswordAdmin/>}/>
+            <Route path='olvide-password-admin/:token' element={<NuevoPasswordAdmin/>}/>
+
             <Route path='olvide-password' element={<ResetPassword/>}/>
             <Route path='olvide-password/:token' element={<NuevoPassword/>}/>
         </Route>

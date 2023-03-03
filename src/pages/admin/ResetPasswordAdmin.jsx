@@ -1,18 +1,18 @@
 import { useState } from 'react';
 
-import Logo from '../assets/Insignia_Las_Acacias.png';
+import Logo from '../../assets/Insignia_Las_Acacias.png';
 import { Link, useNavigate } from 'react-router-dom';
-import Alerta from '../component/Alerta';
+import Alerta from '../../component/Alerta';
 
 import validator from 'validator'
 
-import clienteAxios from '../config/axios';
+import clienteAxios from '../../config/axios';
 import {Box, Button, TextField } from '@mui/material';
-const ResetPassword = () => {
+const ResetPasswordAdmin = () => {
   
   const [email, setEmail] = useState('')
   const [alerta, setAlerta] = useState({})
-  const [showPassword, setShowPassword] = useState(false);
+
   const [error, setError] = useState({
     error: false,
     message:""
@@ -23,10 +23,7 @@ const validateEmail=(email) => {
   return regex.test(email);
 };
 
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
+ 
   
 
 
@@ -48,7 +45,7 @@ const validateEmail=(email) => {
     
 
     try {
-        const {data} = await clienteAxios.post('/user/olvide-password', {email})
+        const {data} = await clienteAxios.post('/admin/olvide-password', {email})
       
         setAlerta({
             msg:data.msg
@@ -83,12 +80,12 @@ const validateEmail=(email) => {
        
         </div>
         <div className='w-full lg:w-1/2 py-16 px-10 border-l-2 '>
-          <h2  className='text-3xl mb-4 font-bold text-center'>Olvide mi <span className=' font-bold text-blue-600'>Contraseña</span></h2>
+          <h2  className='text-3xl mb-4 font-bold text-center'>Olvide mi <span className=' font-bold text-blue-600'>Contraseña</span> Admin</h2>
          
           {msg && <Alerta 
           alerta={alerta}/>}
 
-        <Box onSubmit={handleSubmit}>
+        <Box component="form" onSubmit={handleSubmit}>
           <div className=' mx-2 '>
        
 
@@ -112,8 +109,8 @@ const validateEmail=(email) => {
      
 
         <div className='grid grid-cols-2 mt-2'>
-    <Link className='flex justify-center hover:text-blue-300 duration-150' to="/user">¿Ya tienes cuenta? Iniciar Sesión</Link>
-      <Link className='flex justify-center hover:text-blue-300 duration-150 ml-2' to='/registrarUsuario'>¿No tienes cuenta? Registrare</Link>
+    <Link className='flex justify-center hover:text-blue-300 duration-150' to="/">¿Ya tienes cuenta? Iniciar Sesión</Link>
+      
               </div>
         <div className='flex justify-center mt-5'>
         
@@ -133,4 +130,4 @@ const validateEmail=(email) => {
   )
 }
 
-export default ResetPassword
+export default ResetPasswordAdmin
