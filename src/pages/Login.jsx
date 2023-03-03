@@ -116,7 +116,7 @@ const validateEmail=(email) => {
         helperText={error.message}
         type="email"
         required
-        fullWidth
+        
         error={error.error}/>
       </div>
          
