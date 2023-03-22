@@ -27,29 +27,27 @@ const ContentEnviarSolicitud = (props) => {
   const [identificador, setIdentificador] = useState(authu._id)
   const [asignatura, setAsignatura] = useState('')
   const [descripcion, setDescipcion] = useState('')
-  const [email,setEmail] = useState('isaiasubillo@lbcelasacacias.cl')
+  const [email,setEmail] = useState('brayan.ubigo@gmail.com')
   const [fechaPedido, setfechaPedido]= useState("")
-  const [time, setTime] = useState("")
-
-  const handleChangeFechaPedido = (newValue) => {
-    setfechaPedido(newValue);
-  };
-
+  const [time, setTime] = useState("")  
+  
+  const [selectedValue, setSelectedValue] = useState("");
+  const [selectedStock, setSelectedStock] = useState([]);  
 
   const handleChange = event => {
-    console.log(event.target.value);
+   
     setCurso(event.target.value);
   };
 
   
   const handleChangeAsig = event => {
-    console.log(event.target.value);
+   
     setAsignatura(event.target.value);
   };
 
-  const handleChangeTipo = event => {
-    console.log(event.target.value);
-    setTipo(event.target.value);
+  const handleChangeTipo = async (event) => {
+  
+    setTipo(event.target.value)
   };
  
   
@@ -65,7 +63,7 @@ const ContentEnviarSolicitud = (props) => {
     
       const url = `/soli/perfiluser/${id}`
         const res = await clienteAxios.get(url)
-      console.log(res.data)
+      
       setDatosSoli(res.data)
     }
 
@@ -73,36 +71,28 @@ const ContentEnviarSolicitud = (props) => {
     const obtenerCurso = async (e) =>{
       const url = '/curso/perfil'
         const res = await clienteAxios.get(url)
-      console.log(res.data)
+      
       setDatosCurso(res.data)
+      
     }
     const obtenerTipo = async (e) =>{
       const url = '/tipo/perfil'
         const res = await clienteAxios.get(url)
-      console.log(res.data)
+      
       setDatosTipo(res.data)
+
+     
+      
     }
 
     const obtenerAsignatura = async (e) =>{
       const url = '/asig/perfil'
         const res = await clienteAxios.get(url)
-      console.log(res.data)
+      
       setDatosAsignatura(res.data)
     }
 
   
-
- const Toast = Swal.mixin({
-  toast: true,
-  position: 'top-end',
-  showConfirmButton: false,
-  timer: 3000,
-  timerProgressBar: true,
-  didOpen: (toast) => {
-    toast.addEventListener('mouseenter', Swal.stopTimer)
-    toast.addEventListener('mouseleave', Swal.resumeTimer)
-  }
-})
 
 const resetForm = () =>{
   setCantidad(1)
@@ -130,13 +120,14 @@ const resetForm = () =>{
       
       const url = '/soli'
      const res = await clienteAxios.post(url, {email,nombre, tipo, curso, cantidad, identificador,asignatura, descripcion, fecha,fechaHoraPedido})
-      console.log(res.data)
+      console.log('hola from res ', res);
       
       resetForm()
-      obtenerSoli()
-     
+
+      obtenerTipo()
+
       Swal.fire({
-        title: 'Solicitud enviada!',
+        title: res.data.msg,
         text: 'Espere a que el admin confirme la Solicitud',
         icon: 'success',
         confirmButtonText: 'Ok'
@@ -144,9 +135,9 @@ const resetForm = () =>{
 
     }
     catch(error){
- 
+      console.log('errorrr ', error);
      Swal.fire({
-       title: 'Hubo un error con la Solicitud',
+       title: error.response.data.msg,
        icon:'error',
        timer: 3000
      }
@@ -165,56 +156,7 @@ const resetForm = () =>{
 
 
 
-
-  const columns = [
  
-    {
-      title: 'Solicitud',
-      dataIndex: 'tipo',
-      key: 'tipo',
-    },
-    {
-      title: 'Curso',
-      dataIndex: 'curso',
-      key: 'curso',
-    },
-    {
-      title: 'Asignatura',
-      dataIndex: 'asignatura',
-      key: 'asignatura',
-    },
-
-    {
-      title: 'Cantidad',
-      dataIndex: 'cantidad',
-      key: 'cantidad',
-    },
-    {
-      title: 'Fecha',
-      dataIndex: 'fecha',
-      key: 'fecha',
-    },
-  
-    {
-      title: 'Entregado',
-      dataIndex: 'entregado',
-      key: 'entregado',
-      render: val => (val ? 'Entregado' : 'No entregado'),
-      filters: [{
-        text: 'Entregado',
-        value: true,
-      }, {
-        text: 'No entregado',
-        value: false,
-      }],
-      onFilter: (value, record) => 
-      record.entregado ===value,
- 
-    },
-   
-  
-  
-  ];
   
   return (
     
@@ -239,7 +181,7 @@ const resetForm = () =>{
            <div className='mt-5 lg:mt-0'>
           
            <FormControl variant="filled" sx={{ m: 0, minWidth: 230 }}>
-        <InputLabel id="demo-simple-select-filled-label">Tipo de insumo</InputLabel>
+        <InputLabel id="demo-simple-select-filled-label">Tipo de insumo y "Stock"</InputLabel>
         <Select
           labelId="demo-simple-select-filled-label"
           id="demo-simple-select-filled"
@@ -250,7 +192,8 @@ const resetForm = () =>{
           {datosTipo.map(option => (
            <MenuItem value={option.nombre}>
           
-          {option.nombre}
+          {option.nombre} - {option.stock}
+        
          </MenuItem>
          
         ))}
@@ -258,6 +201,10 @@ const resetForm = () =>{
         
         </Select>
       </FormControl>
+
+    
+           
+      
            </div>
            
 
@@ -270,10 +217,7 @@ const resetForm = () =>{
           value={cantidad} 
           onChange={ e => setCantidad(e.target.value)}
         />
-          {/* <label className=' uppercase text-gray-600 block font-mono' htmlFor="">Cantidad:</label>
-          
-          <input className='border lg:w-[15rem] w-full p-2 mt-3 bg-gray-50 rounded-xl' type="number"
-           placeholder='Cantidad' value={cantidad} onChange={ e => setCantidad(e.target.value)} /> */}
+         
           </div>
 
            <div className='mt-5 lg:mt-7'>
@@ -299,16 +243,7 @@ const resetForm = () =>{
         </Select>
       </FormControl>
 
-         {/* <label className=' uppercase text-gray-600 block font-mono' htmlFor="">Curso:</label>
-           <select className='border lg:w-[15rem] w-full p-2 mt-3 bg-gray-50 rounded-xl' value={curso} onChange={handleChange} >
-           <option  value="" >Seleccione Curso</option>
-        {datosCurso.map(option => (
-          <option key={option.nombre} value={option.nombre} >
-          
-            {option.nombre}
-          </option>
-        ))}
-      </select> */}
+      
            </div>
         
           
@@ -336,17 +271,7 @@ const resetForm = () =>{
         
         </Select>
       </FormControl>
-          {/* <label className=' uppercase text-gray-600 block font-mono' htmlFor="">Asignatura</label>
-          
-          <select className='border lg:w-[15rem] w-full p-2 mt-3 bg-gray-50 rounded-xl' value={asignatura} onChange={handleChangeAsig} >
-           <option  value="" >Seleccione Asignatura</option>
-        {datosAsignatura.map(option => (
-          <option key={option.nombre} value={option.nombre} >
-          
-            {option.nombre}
-          </option>
-        ))}
-      </select> */}
+     
           </div>
            
           <div className='mt-7'>

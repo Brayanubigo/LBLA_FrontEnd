@@ -9,6 +9,7 @@ import Alerta from './Alerta';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import { DataGrid } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import { Box } from '@mui/material';
 
 
@@ -17,12 +18,13 @@ import { Box } from '@mui/material';
 const ContentAddATipoSoli = (props) => {
   const [open, setOpen] = useState(false)
   const [nombre, setNombre] = useState('')
+  const [stock, setStock] = useState(0)
   const [profesor, setProfesor] = useState('')
   const [datos, setDatos] =useState([])
   const [pageSize, setPageSize] = useState(10);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [alerta, setAlerta] = useState({})
-
+  const [gridData, setGridData] = useState([])
 
   useEffect(() => {
     obtenerDatos()
@@ -45,14 +47,14 @@ const ContentAddATipoSoli = (props) => {
 })
 
 const resetForm = () =>{
-  setNombre(""),
-  setProfesor("")
+  setNombre("")
+
 }
 
 
 async function  eliminar(id) { 
   const res = await clienteAxios.get(`/tipo/eliminar/${id}`).then((res) =>{
-    console.log(id)
+    
     
     
     Toast.fire({
@@ -71,9 +73,20 @@ async function  eliminar(id) {
 const obtenerDatos = async (e) =>{
   const url = '/tipo/perfil'
     const res = await clienteAxios.get(url)
-  console.log(res.data)
+
     setDatos(res.data)
 }
+
+function handleEditCell(params,event){
+ 
+  const { id, field, value } = params;
+ 
+  clienteAxios.put(`/tipo/actualizar/${id}`, { [field]: value })
+  .then(response => console.log(response.data))
+  
+  .catch(error => console.error(error));
+ 
+};
 
 
  const handleSubmit = async (e) => {
@@ -91,7 +104,7 @@ const obtenerDatos = async (e) =>{
 
     try{
       const url = '/tipo'
-     const res = await clienteAxios.post(url, {nombre})
+     const res = await clienteAxios.post(url, {nombre,stock})
       console.log(res.data)
     
       
@@ -106,7 +119,7 @@ const obtenerDatos = async (e) =>{
     catch(error){
  
      Swal.fire({
-       title: 'Asignatura ya registrado',
+       title: 'Insumo ya registrado',
        icon:'error',
        timer: 3000
      }
@@ -127,12 +140,15 @@ const obtenerDatos = async (e) =>{
   
  const columns = [
   
-  { field: 'nombre', headerName: 'Nombre', width: 130,flex:1, align:"center" },
-  { field: 'Accion', flex:1, headerName: 'Accion',align:"center"  ,width: 130, 
-  renderCell:params=><Button color="error" style={{marginLeft:8}} 
+  { field: 'nombre', headerName: 'Nombre', width: 130,flex:1, align:"center", editable:true, type: String },
+  { field: 'stock', headerName: 'Stock', width: 130,flex:1, align:"center", editable:true, type: Number },
+ 
+  { field: '', flex:1, headerName: '',align:"center"  ,width: 130, 
+  renderCell:(params)=><Button color="error" style={{marginLeft:8}} 
   variant="outlined" startIcon={<DeleteIcon />} onClick={() => 
   eliminar(params.row._id)}>
   Eliminar</Button> }
+   
 ];
 const {msg} = alerta
   return (
@@ -149,7 +165,7 @@ const {msg} = alerta
           alerta={alerta}/>}
        <Box component="form" onSubmit={handleSubmit}>
         
-        <div className='grid grid-cols-1 lg:grid-cols-2 bg-white mt-2 shadow-2xl border items-center '>
+        <div className='grid grid-cols-1 lg:grid-cols-3 bg-white mt-2 shadow-2xl border items-center '>
         
           <div className='m-5'>
          
@@ -163,7 +179,17 @@ const {msg} = alerta
  
           </div>
          
-        
+          <div className='m-5'>
+         
+    
+         <TextField 
+         required 
+         label="Stock" 
+         variant="outlined" 
+         value={stock} onChange={e => setStock(e.target.value)} />
+         
+    
+             </div>
      
            <div className='m-5 '>
            <Button variant="contained" endIcon={<NoteAddIcon />} type="submit">
@@ -207,7 +233,7 @@ const {msg} = alerta
           top:params.isFirstVisible ? 0 : 5,
           bottom:params.isLastVisible ? 0 : 5,
         })}
-        
+        onCellEditCommit={(params, event) => handleEditCell(params, event)}
       />
       </div>
      </div>

@@ -4,7 +4,7 @@ import useAuthUser from "../hooks/useAuthUser";
 
 const RutaProtegidaUser = () => {
   const {authu, cargando } = useAuthUser();
-  console.log(authu)
+ 
   
   if(cargando) return 'cargando...'
   return (

@@ -58,7 +58,7 @@ const resetForm = () =>{
 
 async function  eliminar(id) { 
   const res = await clienteAxios.get(`/asig/eliminar/${id}`).then((res) =>{
-    console.log(id)
+   
     
     
     Toast.fire({
@@ -77,10 +77,20 @@ async function  eliminar(id) {
 const obtenerDatos = async (e) =>{
   const url = '/asig/perfil'
     const res = await clienteAxios.get(url)
-  console.log(res.data)
+  
     setDatos(res.data.reverse())
 }
 
+function handleEditCell(params,event){
+ 
+  const { id, field, value } = params;
+ 
+  clienteAxios.put(`/asig/actualizar/${id}`, { [field]: value })
+  .then(response => response.data)
+  
+  .catch(error => console.error(error));
+ 
+};
 
  const handleSubmit = async (e) => {
     e.preventDefault()
@@ -98,7 +108,7 @@ const obtenerDatos = async (e) =>{
     try{
       const url = '/asig'
      const res = await clienteAxios.post(url, {nombre})
-      console.log(res.data)
+     
     
       
      
@@ -131,7 +141,7 @@ const obtenerDatos = async (e) =>{
 
  const columns = [
   
-  { field: 'nombre', headerName: 'Nombre', width: 130,flex:1, align:"center" },
+  { field: 'nombre', headerName: 'Nombre', width: 130,flex:1, align:"center", editable:true },
   { field: 'Accion', flex:1, headerName: 'Accion',align:"center"  ,width: 130, 
   renderCell:params=><Button color="error" style={{marginLeft:8}} 
   variant="outlined" startIcon={<DeleteIcon />} onClick={() => 
@@ -209,39 +219,9 @@ const obtenerDatos = async (e) =>{
           top:params.isFirstVisible ? 0 : 5,
           bottom:params.isLastVisible ? 0 : 5,
         })}
-        
+        onCellEditCommit={(params, event) => handleEditCell(params, event)}
       />
    
-     {/* <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell align="center">Nombre</TableCell>
-            <TableCell align="center">Acción</TableCell>
-            
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {datos.map((row) => (
-            <TableRow
-              key={row._id}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-            
-              <TableCell align="center">{row.nombre}</TableCell>
-           
-              <TableCell align="center" >
-             
-                <Button color="error" style={{marginLeft:8}} variant="outlined" startIcon={<DeleteIcon />} onClick={() => eliminar(row._id)}>
-                  Eliminar</Button>
-                  
-                  </TableCell>
-            
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer> */}
      </div>
      </div>
     

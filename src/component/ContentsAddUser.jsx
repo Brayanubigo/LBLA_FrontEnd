@@ -107,7 +107,7 @@ const obtenerUsuarios = async (e) =>{
 
 async function  eliminar(id) { 
   const res = await clienteAxios.get(`/user/eliminar/${id}`).then((res) =>{
-    console.log(id)
+    
     
     
     Toast.fire({
