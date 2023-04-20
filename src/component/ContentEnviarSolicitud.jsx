@@ -180,7 +180,7 @@ const resetForm = () =>{
 
            <div className='mt-5 lg:mt-0'>
           
-           <FormControl variant="filled" sx={{ m: 0, minWidth: 230 }}>
+           <FormControl variant="filled" sx={{ m: 0, minWidth: 230, maxWidth:100 }}>
         <InputLabel id="demo-simple-select-filled-label">Tipo de insumo y "Stock"</InputLabel>
         <Select
           labelId="demo-simple-select-filled-label"
@@ -222,7 +222,7 @@ const resetForm = () =>{
 
            <div className='mt-5 lg:mt-7'>
         
-           <FormControl variant="filled" sx={{ m: 0, minWidth: 230 }}>
+           <FormControl variant="filled" sx={{ m: 0, minWidth: 230, maxWidth: 100 }}>
         <InputLabel id="demo-simple-select-filled-label">Curso</InputLabel>
         <Select
           labelId="demo-simple-select-filled-label"
@@ -249,9 +249,9 @@ const resetForm = () =>{
           
 
       
-           <div className='mt-5 lg:mt-7'>
+           <div className='mt-5 lg:mt-7 max-w-md'>
           
-           <FormControl variant="filled" sx={{ m: 0, minWidth: 230 }}>
+           <FormControl variant="filled" sx={{ m: 0, minWidth: 230, maxWidth:100 }}>
         <InputLabel id="demo-simple-select-filled-label">Asignatura</InputLabel>
         <Select
           labelId="demo-simple-select-filled-label"
